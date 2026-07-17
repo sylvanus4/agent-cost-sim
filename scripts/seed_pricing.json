@@ -1,0 +1,14 @@
+{
+  "updated_at": "2026-07-18",
+  "stale": false,
+  "unit": "per_mtok",
+  "note": "Curated seed. Vendor names are neutral placeholders; replace with real adapters.",
+  "models": [
+    { "id": "provider-a/frontier", "label": "Provider A - Frontier", "tier": "F", "in": 15.0, "out": 75.0, "cache_read": 1.5 },
+    { "id": "provider-a/mid", "label": "Provider A - Mid", "tier": "M", "in": 3.0, "out": 15.0, "cache_read": 0.3 },
+    { "id": "provider-a/small", "label": "Provider A - Small", "tier": "S", "in": 0.8, "out": 4.0, "cache_read": 0.08 },
+    { "id": "provider-b/frontier", "label": "Provider B - Frontier", "tier": "F", "in": 10.0, "out": 40.0, "cache_read": 1.25 },
+    { "id": "provider-b/mid", "label": "Provider B - Mid", "tier": "M", "in": 2.5, "out": 10.0, "cache_read": 0.25 },
+    { "id": "provider-b/small", "label": "Provider B - Small", "tier": "S", "in": 0.5, "out": 1.5, "cache_read": 0.05 }
+  ]
+}

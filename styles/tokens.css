@@ -1,0 +1,72 @@
+:root {
+  /* Surfaces (light) */
+  --color-bg: oklch(98.5% 0.004 260);
+  --color-surface: oklch(100% 0 0);
+  --color-surface-2: oklch(96.5% 0.006 260);
+  --color-border: oklch(90% 0.008 260);
+  --color-text: oklch(22% 0.02 265);
+  --color-text-muted: oklch(52% 0.02 265);
+
+  /* Brand accent */
+  --color-accent: oklch(58% 0.17 260);
+  --color-accent-strong: oklch(48% 0.19 262);
+
+  /* Tier palette (dataviz: distinct hue, matched chroma/lightness) */
+  --tier-f: oklch(62% 0.20 25);   /* frontier  - warm red  (expensive) */
+  --tier-m: oklch(66% 0.16 255);  /* mid       - blue */
+  --tier-s: oklch(70% 0.15 155);  /* small     - green (cheap) */
+
+  --color-positive: oklch(60% 0.16 155);
+  --color-warning: oklch(70% 0.16 75);
+
+  /* Type scale */
+  --text-sm: clamp(0.8rem, 0.77rem + 0.15vw, 0.875rem);
+  --text-base: clamp(0.95rem, 0.9rem + 0.25vw, 1.05rem);
+  --text-lg: clamp(1.15rem, 1rem + 0.6vw, 1.4rem);
+  --text-display: clamp(2.4rem, 1.6rem + 3.4vw, 4rem);
+
+  /* Spacing */
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-section: clamp(2.5rem, 2rem + 3vw, 5rem);
+
+  /* Radius + elevation */
+  --radius: 14px;
+  --radius-sm: 9px;
+  --shadow-card: 0 1px 2px oklch(20% 0.02 265 / 0.06), 0 8px 24px oklch(20% 0.02 265 / 0.06);
+
+  /* Motion */
+  --dur-fast: 140ms;
+  --dur-normal: 260ms;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, "SF Mono", "Menlo", monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: oklch(17% 0.02 265);
+    --color-surface: oklch(21% 0.02 265);
+    --color-surface-2: oklch(25% 0.02 265);
+    --color-border: oklch(32% 0.02 265);
+    --color-text: oklch(94% 0.01 265);
+    --color-text-muted: oklch(70% 0.02 265);
+    --color-accent: oklch(72% 0.15 258);
+    --color-accent-strong: oklch(80% 0.13 256);
+    --tier-f: oklch(66% 0.19 25);
+    --tier-m: oklch(70% 0.15 255);
+    --tier-s: oklch(74% 0.14 155);
+    --shadow-card: 0 1px 2px oklch(0% 0 0 / 0.3), 0 10px 30px oklch(0% 0 0 / 0.35);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}

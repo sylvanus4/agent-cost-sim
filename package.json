@@ -1,0 +1,11 @@
+{
+  "name": "agent-cost-sim",
+  "version": "0.1.0",
+  "description": "Vendor-neutral calculator for token cost savings from role-based model-tier routing in multi-agent pipelines",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "node --test"
+  },
+  "license": "MIT"
+}

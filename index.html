@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agent Cost Sim — 멀티에이전트 라우팅 비용 계산기</title>
+  <meta name="description" content="멀티에이전트 파이프라인에서 역할별 모델 티어 라우팅이 토큰 비용을 얼마나 줄이는지 배포 전에 계산합니다. 벤더 중립, 정적 계산기." />
+  <link rel="stylesheet" href="./styles/tokens.css" />
+  <link rel="stylesheet" href="./styles/app.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header class="masthead">
+      <span class="eyebrow">Agent Cost Sim</span>
+      <h1>라우팅만 바꿔도 얼마나 아낄까</h1>
+      <p class="lede">
+        파이프라인의 단계·역할·fan-out·토큰량을 입력하면, 전 단계를 프론티어 모델로 돌릴 때 대비
+        역할별 티어 라우팅(탐색→저비용, 구현→중간, 검증→프론티어)의 예상 토큰 비용 절감률을 계산합니다.
+        벤더 중립이며 품질이 아니라 <em>비용만</em> 추정합니다.
+      </p>
+    </header>
+
+    <main class="grid">
+      <section class="card span-all" aria-labelledby="result-h">
+        <h2 id="result-h">비용 비교 (회당)</h2>
+        <div class="result-head">
+          <div class="metric">
+            <span class="k">예상 절감률</span>
+            <span class="savings-figure" id="savings">—</span>
+          </div>
+          <div class="metric"><span class="k">Baseline (전 단계 F)</span><span class="v" id="baseline-total">—</span></div>
+          <div class="metric"><span class="k">Routed (역할별 티어)</span><span class="v" id="routed-total">—</span></div>
+          <div class="metric"><span class="k">절감액</span><span class="v" id="saved">—</span></div>
+        </div>
+
+        <div id="chart" aria-live="polite"></div>
+
+        <div class="legend" aria-hidden="true">
+          <span><i class="swatch" style="background:var(--tier-f)"></i> Frontier (F)</span>
+          <span><i class="swatch" style="background:var(--tier-m)"></i> Mid (M)</span>
+          <span><i class="swatch" style="background:var(--tier-s)"></i> Small (S)</span>
+        </div>
+
+        <p class="callout" id="callout" hidden></p>
+      </section>
+
+      <section class="card" aria-labelledby="pipe-h">
+        <h2 id="pipe-h">파이프라인 단계</h2>
+        <div id="stages"></div>
+        <div class="toolbar">
+          <button class="btn btn-ghost" id="add-stage" type="button">+ 단계 추가</button>
+          <button class="btn btn-ghost" id="reset" type="button">기본값</button>
+          <button class="btn btn-primary" id="share" type="button">공유 링크</button>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="tier-h">
+        <h2 id="tier-h">티어별 모델</h2>
+        <p class="lede" style="font-size:var(--text-sm)">
+          각 티어 슬롯에 실제 모델을 배정하세요. Baseline은 항상 프론티어(F)를 씁니다.
+          단가는 나이트리 파이프라인이 공개 정보로 갱신합니다.
+        </p>
+        <div class="tier-row" id="tiers"></div>
+        <p class="meta" id="meta"></p>
+      </section>
+    </main>
+
+    <div class="scope-note">
+      <strong>범위 주의.</strong> 이 도구는 <em>토큰 비용만</em> 추정합니다. "저비용 서브모델을 섞어도 점수가 유지된다"는
+      원래 화제이지만, 품질 유지 여부는 파이프라인마다 다르며 이 계산기가 검증하지 않습니다. 절감률은 검증 단계가
+      프론티어로 남아 비용을 지배하면 급격히 얇아집니다. 캐시 재사용(cache 입력)은 실비용에서 큰 축이라 반영 옵션을 뒀습니다.
+      절대 금액은 각 벤더의 공개 가격 페이지로 재확인하세요.
+    </div>
+
+    <footer>
+      <span>정적 계산기 · 서버·추적 없음 · 구성은 URL에 저장(공유 가능)</span>
+      <span><a href="./data/pricing.json">pricing.json</a> · <a href="https://github.com/">source</a></span>
+    </footer>
+  </div>
+
+  <script type="module" src="./src/app.js"></script>
+</body>
+</html>
