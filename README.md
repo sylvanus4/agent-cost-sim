@@ -60,6 +60,22 @@ stage = agents * calls_per_agent * call
 
 기본 역할→티어 매핑은 흔한 라우팅 휴리스틱(탐색=저비용, 구현=중간, 검증/판단=프론티어)을 따릅니다.
 
+## 실측 A/B 검증
+
+계산기는 비용만 추정하므로, **품질까지 실제로 측정**한 A/B 실험을 함께 뒀습니다.
+코딩 태스크 3개를 (a) 전 단계 프론티어 vs (b) 역할별 라우팅으로 돌리고, 숨은 테스트로 채점:
+
+| | 품질 (숨은 테스트) | 비용 (실측 토큰 기반) |
+|---|---|---|
+| Baseline (전부 프론티어) | 100% (23/23) | $42.12 |
+| Routed (haiku/sonnet/opus) | 100% (23/23) | $17.59 |
+
+**비용 58% 절감, 품질 손실 0.** 방법론·한계·재현 방법은 [EXPERIMENT.md](EXPERIMENT.md),
+원자료는 [data/experiment-results.json](data/experiment-results.json), 실행은 `experiment/analyze.py`.
+
+한계는 정직히: n=3이고 저비용 모델도 풀 수 있는 난이도라 품질이 붙었습니다. 자기 태스크로
+`experiment/` 하네스를 돌려 직접 확인하는 걸 권합니다.
+
 ## 가격 갱신 파이프라인
 
 `.github/workflows/pricing-nightly.yml`가 02:00 UTC에 `scrape_pricing.py`를 돌립니다.

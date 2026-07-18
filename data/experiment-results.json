@@ -1,0 +1,207 @@
+{
+  "tasks": [
+    {
+      "task": "merge_intervals",
+      "variants": {
+        "baseline": {
+          "tokens": 467831,
+          "cost_usd": 14.0349,
+          "passed": 8,
+          "total": 8,
+          "stages": [
+            {
+              "stage": "explore",
+              "tier": "F",
+              "model": "opus",
+              "tokens": 155943
+            },
+            {
+              "stage": "implement",
+              "tier": "F",
+              "model": "opus",
+              "tokens": 155935
+            },
+            {
+              "stage": "verify",
+              "tier": "F",
+              "model": "opus",
+              "tokens": 155953
+            }
+          ]
+        },
+        "routed": {
+          "tokens": 450216,
+          "cost_usd": 5.8611,
+          "passed": 8,
+          "total": 8,
+          "stages": [
+            {
+              "stage": "explore",
+              "tier": "S",
+              "model": "haiku",
+              "tokens": 132725
+            },
+            {
+              "stage": "implement",
+              "tier": "M",
+              "model": "sonnet",
+              "tokens": 161498
+            },
+            {
+              "stage": "verify",
+              "tier": "F",
+              "model": "opus",
+              "tokens": 155993
+            }
+          ]
+        }
+      }
+    },
+    {
+      "task": "parse_semver",
+      "variants": {
+        "baseline": {
+          "tokens": 468155,
+          "cost_usd": 14.0447,
+          "passed": 9,
+          "total": 9,
+          "stages": [
+            {
+              "stage": "explore",
+              "tier": "F",
+              "model": "opus",
+              "tokens": 156003
+            },
+            {
+              "stage": "implement",
+              "tier": "F",
+              "model": "opus",
+              "tokens": 156045
+            },
+            {
+              "stage": "verify",
+              "tier": "F",
+              "model": "opus",
+              "tokens": 156107
+            }
+          ]
+        },
+        "routed": {
+          "tokens": 450578,
+          "cost_usd": 5.8679,
+          "passed": 9,
+          "total": 9,
+          "stages": [
+            {
+              "stage": "explore",
+              "tier": "S",
+              "model": "haiku",
+              "tokens": 132785
+            },
+            {
+              "stage": "implement",
+              "tier": "M",
+              "model": "sonnet",
+              "tokens": 161597
+            },
+            {
+              "stage": "verify",
+              "tier": "F",
+              "model": "opus",
+              "tokens": 156196
+            }
+          ]
+        }
+      }
+    },
+    {
+      "task": "word_frequency",
+      "variants": {
+        "baseline": {
+          "tokens": 467911,
+          "cost_usd": 14.0373,
+          "passed": 6,
+          "total": 6,
+          "stages": [
+            {
+              "stage": "explore",
+              "tier": "F",
+              "model": "opus",
+              "tokens": 155980
+            },
+            {
+              "stage": "implement",
+              "tier": "F",
+              "model": "opus",
+              "tokens": 155959
+            },
+            {
+              "stage": "verify",
+              "tier": "F",
+              "model": "opus",
+              "tokens": 155972
+            }
+          ]
+        },
+        "routed": {
+          "tokens": 450260,
+          "cost_usd": 5.8602,
+          "passed": 6,
+          "total": 6,
+          "stages": [
+            {
+              "stage": "explore",
+              "tier": "S",
+              "model": "haiku",
+              "tokens": 132773
+            },
+            {
+              "stage": "implement",
+              "tier": "M",
+              "model": "sonnet",
+              "tokens": 161535
+            },
+            {
+              "stage": "verify",
+              "tier": "F",
+              "model": "opus",
+              "tokens": 155952
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "baseline": {
+      "tokens": 1403897,
+      "cost_usd": 42.1169,
+      "quality_pct": 100.0
+    },
+    "routed": {
+      "tokens": 1351054,
+      "cost_usd": 17.5893,
+      "quality_pct": 100.0
+    },
+    "cost_savings_pct": 58.2,
+    "quality_delta_pct": 0.0
+  },
+  "assumptions": {
+    "tier_price_per_mtok": {
+      "F": {
+        "in": 15.0,
+        "out": 75.0
+      },
+      "M": {
+        "in": 3.0,
+        "out": 15.0
+      },
+      "S": {
+        "in": 0.8,
+        "out": 4.0
+      }
+    },
+    "blend_input_weight": 0.75,
+    "blend_output_weight": 0.25
+  }
+}

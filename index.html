@@ -73,6 +73,24 @@
       <p class="callout" id="callout" hidden></p>
     </section>
 
+    <!-- Proof: real A/B experiment -->
+    <section class="proof" aria-labelledby="proof-h">
+      <div class="proof-head">
+        <h2 id="proof-h">계산만 아니라, 실제로 돌려봤어요</h2>
+        <p>코딩 태스크 3개를 <b>전부 프론티어</b> vs <b>역할별 라우팅</b>으로 실행하고, 숨은 테스트로 품질을 채점했습니다.</p>
+      </div>
+      <div class="proof-stats">
+        <div class="proof-stat"><span class="ps-v">58%</span><span class="ps-k">비용 절감<br>($42.12 → $17.59)</span></div>
+        <div class="proof-stat"><span class="ps-v pos">100%</span><span class="ps-k">품질 유지<br>숨은 테스트 23/23 양변 통과</span></div>
+        <div class="proof-stat"><span class="ps-v">0 pts</span><span class="ps-k">품질 손실<br>라우팅해도 동일</span></div>
+      </div>
+      <p class="proof-note">
+        정직하게: n=3, 저비용 모델도 풀 수 있는 난이도라 품질이 100:100으로 붙었어요. "이런 태스크에선
+        라우팅이 공짜 절감"이란 뜻이지, 모든 태스크에서 품질이 유지된다는 증명은 아닙니다.
+        전체 방법론·코드·한계는 <a href="./EXPERIMENT.md">EXPERIMENT.md</a>, 원자료는 <a href="./data/experiment-results.json">experiment-results.json</a>.
+      </p>
+    </section>
+
     <!-- Step 2: three simple knobs -->
     <section class="knobs" aria-labelledby="k-h">
       <h2 id="k-h" class="step-label">2. 규모만 맞춰보세요</h2>
