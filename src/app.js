@@ -11,6 +11,7 @@ const RUNS = [
   { v: 10000, label: "하루 1만회" },
 ];
 const TIER_LABEL = { S: "저비용 (탐색)", M: "중간 (구현)", F: "프론티어 (검증)" };
+const TIER_SHORT = { S: "저비용", M: "중간", F: "프론티어" };
 const DAYS = 30;
 
 let pricing = null;
@@ -81,6 +82,7 @@ function render() {
 function compute() {
   const stages = currentStages();
   const models = selectionToModels(pricing, state.selection);
+  renderRatio(models);
   const perRun = simulate({ stages, models, roleTier: DEFAULT_ROLE_TIER });
   const factor = state.runsPerDay * DAYS;
   const monthly = scaleResult(perRun, factor);
@@ -98,6 +100,7 @@ function compute() {
   $("#m-routed").textContent = money(monthly.routed.total);
   $("#m-saved").textContent = money(monthly.baseline.total - monthly.routed.total);
 
+  renderRouteStrip(stages, models);
   renderChart($("#chart"), monthly);
 
   const d = perRun.dominantRoutedStage;
@@ -110,6 +113,41 @@ function compute() {
   }
 
   persist();
+}
+
+// Price gap between frontier and cheap tier — grounds the "why".
+function renderRatio(models) {
+  const el = $("#ratio");
+  if (!el) return;
+  const f = models.F?.in;
+  const s = models.S?.in;
+  if (f && s && s > 0) {
+    const r = Math.round(f / s);
+    el.textContent = `프론티어는 저비용 티어보다 토큰당 약 ${r}배 비싸요.`;
+  } else {
+    el.textContent = "";
+  }
+}
+
+// Make routing literal: show each stage as a pill coloured by its routed tier.
+function renderRouteStrip(stages, _models) {
+  const strip = $("#route-strip");
+  if (!strip) return;
+  strip.replaceChildren();
+  stages.forEach((s, i) => {
+    if (i > 0) {
+      const arrow = document.createElement("span");
+      arrow.className = "route-arrow";
+      arrow.textContent = "→";
+      strip.appendChild(arrow);
+    }
+    const tier = DEFAULT_ROLE_TIER[s.role] ?? "M";
+    const calls = s.agents * s.callsPerAgent;
+    const pill = document.createElement("span");
+    pill.className = `route-pill tier-${tier}`;
+    pill.innerHTML = `<span class="rp-role">${s.role}</span><span class="rp-meta">×${calls} · ${TIER_SHORT[tier]}</span>`;
+    strip.appendChild(pill);
+  });
 }
 
 // ---- Advanced (collapsed) --------------------------------------------------

@@ -19,6 +19,25 @@
       </p>
     </header>
 
+    <!-- Explainer: why routing saves money (for a cold visitor) -->
+    <section class="explainer" aria-labelledby="e-h">
+      <h2 id="e-h" class="explainer-title">라우팅이 뭐고, 왜 아껴지나요?</h2>
+      <div class="explainer-grid">
+        <div class="ex-step">
+          <span class="ex-num">1</span>
+          <p>에이전트 파이프라인은 모델을 <b>여러 번</b> 호출해요. 자료 검색, 초안 작성, 결과 검증처럼 <b>난이도가 다른 일</b>에요.</p>
+        </div>
+        <div class="ex-step">
+          <span class="ex-num">2</span>
+          <p>모든 호출에 최고급 모델을 쓰면, 단순 <b>검색</b>에도 비싼 값을 내죠. 검색·읽기는 최고 지능이 필요 없어요.</p>
+        </div>
+        <div class="ex-step">
+          <span class="ex-num">3</span>
+          <p><b>라우팅</b> = 일의 난이도에 모델 등급을 맞추기. 탐색은 <b>저비용</b>, 판단·<b>검증만 프론티어</b>. <span class="ratio" id="ratio"></span></p>
+        </div>
+      </div>
+    </section>
+
     <!-- Step 1: pick a pipeline -->
     <section aria-labelledby="p-h">
       <h2 id="p-h" class="step-label">1. 내 파이프라인과 비슷한 걸 고르세요</h2>
@@ -35,6 +54,8 @@
         </div>
         <p class="takeaway" id="takeaway"></p>
       </div>
+
+      <div class="route-strip" id="route-strip" aria-label="파이프라인 단계별 모델 티어 배정"></div>
 
       <div id="chart"></div>
       <div class="legend" aria-hidden="true">

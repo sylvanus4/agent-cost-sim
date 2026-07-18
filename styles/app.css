@@ -47,6 +47,43 @@ h1 {
   margin: 0 0 var(--space-4); color: var(--color-text);
 }
 
+/* Explainer */
+.explainer {
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: var(--space-6);
+}
+.explainer-title { margin: 0 0 var(--space-4); font-size: var(--text-lg); letter-spacing: -0.01em; }
+.explainer-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-4);
+}
+.ex-step { display: flex; gap: var(--space-3); align-items: flex-start; }
+.ex-step p { margin: 0; font-size: var(--text-sm); color: var(--color-text); }
+.ex-num {
+  flex: none; width: 26px; height: 26px; border-radius: 50%;
+  display: grid; place-items: center; font-weight: 700; font-size: 0.85rem;
+  background: var(--color-accent); color: #fff;
+}
+.ratio { display: block; margin-top: 4px; color: var(--color-text-muted); font-weight: 600; }
+
+/* Routing strip — routing made literal */
+.route-strip {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2);
+  margin-bottom: var(--space-6);
+}
+.route-pill {
+  display: inline-flex; flex-direction: column; line-height: 1.2;
+  padding: 0.4rem 0.7rem; border-radius: var(--radius-sm);
+  border: 1.5px solid transparent;
+}
+.route-pill .rp-role { font-weight: 680; font-size: var(--text-sm); }
+.route-pill .rp-meta { font-size: 0.72rem; opacity: 0.85; font-family: var(--font-mono); }
+.route-pill.tier-S { background: color-mix(in oklch, var(--tier-s) 16%, transparent); border-color: color-mix(in oklch, var(--tier-s) 45%, transparent); }
+.route-pill.tier-M { background: color-mix(in oklch, var(--tier-m) 16%, transparent); border-color: color-mix(in oklch, var(--tier-m) 45%, transparent); }
+.route-pill.tier-F { background: color-mix(in oklch, var(--tier-f) 16%, transparent); border-color: color-mix(in oklch, var(--tier-f) 45%, transparent); }
+.route-arrow { color: var(--color-text-muted); font-weight: 700; }
+
 /* Preset cards */
 .presets {
   display: grid;
@@ -212,6 +249,7 @@ footer {
 a { color: var(--color-accent); }
 
 @media (max-width: 760px) {
+  .explainer-grid { grid-template-columns: 1fr; gap: var(--space-3); }
   .adv-body { grid-template-columns: 1fr; }
   .stage { grid-template-columns: 1fr 1fr; }
   .stage .field.role { grid-column: 1 / -1; }
