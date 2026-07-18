@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Agent Cost Sim — 멀티에이전트 라우팅 비용 계산기</title>
-  <meta name="description" content="멀티에이전트 파이프라인에서 역할별 모델 티어 라우팅이 토큰 비용을 얼마나 줄이는지 배포 전에 계산합니다. 벤더 중립, 정적 계산기." />
+  <meta name="description" content="파이프라인 유형만 고르면 역할별 모델 티어 라우팅으로 토큰 비용이 얼마나 줄어드는지 바로 보여줍니다. 벤더 중립, 입력 없이 시작." />
   <link rel="stylesheet" href="./styles/tokens.css" />
   <link rel="stylesheet" href="./styles/app.css" />
 </head>
@@ -12,69 +12,83 @@
   <div class="wrap">
     <header class="masthead">
       <span class="eyebrow">Agent Cost Sim</span>
-      <h1>라우팅만 바꿔도 얼마나 아낄까</h1>
+      <h1>파이프라인 고르면, 라우팅으로 얼마 아끼는지 바로 보여줘요</h1>
       <p class="lede">
-        파이프라인의 단계·역할·fan-out·토큰량을 입력하면, 전 단계를 프론티어 모델로 돌릴 때 대비
-        역할별 티어 라우팅(탐색→저비용, 구현→중간, 검증→프론티어)의 예상 토큰 비용 절감률을 계산합니다.
-        벤더 중립이며 품질이 아니라 <em>비용만</em> 추정합니다.
+        여러 에이전트를 돌리는 파이프라인에서 모든 단계를 최고급 모델로 쓰는 대신
+        역할별로 모델을 나누면(탐색은 저비용, 검증만 프론티어) 비용이 얼마나 줄까요? 아래 유형을 눌러보세요.
       </p>
     </header>
 
-    <main class="grid">
-      <section class="card span-all" aria-labelledby="result-h">
-        <h2 id="result-h">비용 비교 (회당)</h2>
-        <div class="result-head">
-          <div class="metric">
-            <span class="k">예상 절감률</span>
-            <span class="savings-figure" id="savings">—</span>
+    <!-- Step 1: pick a pipeline -->
+    <section aria-labelledby="p-h">
+      <h2 id="p-h" class="step-label">1. 내 파이프라인과 비슷한 걸 고르세요</h2>
+      <div class="presets" id="presets"></div>
+    </section>
+
+    <!-- Result: the answer, big -->
+    <section class="card result" aria-labelledby="r-h" aria-live="polite">
+      <h2 id="r-h" class="sr-only">결과</h2>
+      <div class="result-top">
+        <div class="figure-block">
+          <span class="figure-label">예상 절감</span>
+          <span class="savings-figure" id="savings">—</span>
+        </div>
+        <p class="takeaway" id="takeaway"></p>
+      </div>
+
+      <div id="chart"></div>
+      <div class="legend" aria-hidden="true">
+        <span><i class="swatch" style="background:var(--tier-f)"></i> 프론티어</span>
+        <span><i class="swatch" style="background:var(--tier-m)"></i> 중간</span>
+        <span><i class="swatch" style="background:var(--tier-s)"></i> 저비용</span>
+      </div>
+
+      <div class="months">
+        <div class="metric"><span class="k">월 Baseline (전부 프론티어)</span><span class="v" id="m-base">—</span></div>
+        <div class="metric"><span class="k">월 Routed (역할별)</span><span class="v hi" id="m-routed">—</span></div>
+        <div class="metric"><span class="k">월 절감</span><span class="v pos" id="m-saved">—</span></div>
+      </div>
+
+      <p class="callout" id="callout" hidden></p>
+    </section>
+
+    <!-- Step 2: three simple knobs -->
+    <section class="knobs" aria-labelledby="k-h">
+      <h2 id="k-h" class="step-label">2. 규모만 맞춰보세요</h2>
+      <div class="knob"><span class="knob-label">요청 크기</span><div class="chips" id="size-chips"></div></div>
+      <div class="knob"><span class="knob-label">파이프라인 규모</span><div class="chips" id="scale-chips"></div></div>
+      <div class="knob"><span class="knob-label">실행 빈도</span><div class="chips" id="runs-chips"></div></div>
+      <button class="btn btn-primary share-btn" id="share" type="button">결과 공유</button>
+    </section>
+
+    <!-- Advanced, collapsed -->
+    <details class="advanced">
+      <summary>세부 조정 (엔지니어용) — 단계별 토큰·모델 직접 편집</summary>
+      <div class="adv-body">
+        <div class="adv-col">
+          <h3>파이프라인 단계</h3>
+          <div id="stages"></div>
+          <div class="toolbar">
+            <button class="btn btn-ghost" id="add-stage" type="button">+ 단계</button>
+            <button class="btn btn-ghost" id="reset-preset" type="button">프리셋으로 초기화</button>
           </div>
-          <div class="metric"><span class="k">Baseline (전 단계 F)</span><span class="v" id="baseline-total">—</span></div>
-          <div class="metric"><span class="k">Routed (역할별 티어)</span><span class="v" id="routed-total">—</span></div>
-          <div class="metric"><span class="k">절감액</span><span class="v" id="saved">—</span></div>
         </div>
-
-        <div id="chart" aria-live="polite"></div>
-
-        <div class="legend" aria-hidden="true">
-          <span><i class="swatch" style="background:var(--tier-f)"></i> Frontier (F)</span>
-          <span><i class="swatch" style="background:var(--tier-m)"></i> Mid (M)</span>
-          <span><i class="swatch" style="background:var(--tier-s)"></i> Small (S)</span>
+        <div class="adv-col">
+          <h3>티어별 모델</h3>
+          <p class="hint">각 티어에 실제 모델을 배정. Baseline은 항상 프론티어를 씁니다.</p>
+          <div class="tier-row" id="tiers"></div>
         </div>
+      </div>
+    </details>
 
-        <p class="callout" id="callout" hidden></p>
-      </section>
-
-      <section class="card" aria-labelledby="pipe-h">
-        <h2 id="pipe-h">파이프라인 단계</h2>
-        <div id="stages"></div>
-        <div class="toolbar">
-          <button class="btn btn-ghost" id="add-stage" type="button">+ 단계 추가</button>
-          <button class="btn btn-ghost" id="reset" type="button">기본값</button>
-          <button class="btn btn-primary" id="share" type="button">공유 링크</button>
-        </div>
-      </section>
-
-      <section class="card" aria-labelledby="tier-h">
-        <h2 id="tier-h">티어별 모델</h2>
-        <p class="lede" style="font-size:var(--text-sm)">
-          각 티어 슬롯에 실제 모델을 배정하세요. Baseline은 항상 프론티어(F)를 씁니다.
-          단가는 나이트리 파이프라인이 공개 정보로 갱신합니다.
-        </p>
-        <div class="tier-row" id="tiers"></div>
-        <p class="meta" id="meta"></p>
-      </section>
-    </main>
-
-    <div class="scope-note">
-      <strong>범위 주의.</strong> 이 도구는 <em>토큰 비용만</em> 추정합니다. "저비용 서브모델을 섞어도 점수가 유지된다"는
-      원래 화제이지만, 품질 유지 여부는 파이프라인마다 다르며 이 계산기가 검증하지 않습니다. 절감률은 검증 단계가
-      프론티어로 남아 비용을 지배하면 급격히 얇아집니다. 캐시 재사용(cache 입력)은 실비용에서 큰 축이라 반영 옵션을 뒀습니다.
-      절대 금액은 각 벤더의 공개 가격 페이지로 재확인하세요.
-    </div>
+    <p class="scope-note">
+      <b>비용만 계산합니다.</b> "저비용 모델을 섞어도 품질이 유지된다"는 별개 문제이고 이 도구는 검증하지 않아요.
+      단가는 공개 정가 기반 추정이라 절대 금액은 각 벤더 페이지로 확인하세요. <span id="meta"></span>
+    </p>
 
     <footer>
-      <span>정적 계산기 · 서버·추적 없음 · 구성은 URL에 저장(공유 가능)</span>
-      <span><a href="./data/pricing.json">pricing.json</a> · <a href="https://github.com/">source</a></span>
+      <span>서버·추적 없음 · 구성은 URL에 저장</span>
+      <span><a href="./data/pricing.json">단가표</a></span>
     </footer>
   </div>
 
