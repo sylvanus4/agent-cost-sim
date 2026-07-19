@@ -1,7 +1,7 @@
 # 링크드인 게시 초안
 
-아래 본문을 복사해 쓰세요. 데모/repo 링크는 배포 후 실제 URL로 교체하면 됩니다.
-(`https://sylvanus4.github.io/agent-cost-sim/`, `https://github.com/sylvanus4/agent-cost-sim` 자리표시자)
+아래 본문을 복사해 쓰세요. 링크는 이미 라이브입니다.
+데모 https://sylvanus4.github.io/agent-cost-sim/ · 코드 https://github.com/sylvanus4/agent-cost-sim
 
 ---
 
