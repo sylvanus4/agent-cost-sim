@@ -1,6 +1,6 @@
 {
   "updated_at": "2026-07-18",
-  "stale": false,
+  "stale": true,
   "note": "Prices are USD per 1,000,000 tokens, sourced from public list pricing. Vendor names are placeholders for a neutral demo; the nightly pipeline replaces this file. Verify against each provider's live pricing page before relying on absolute numbers.",
   "unit": "per_mtok",
   "models": [
